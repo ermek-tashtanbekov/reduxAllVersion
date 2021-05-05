@@ -1,23 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import { useDispatch, useSelector } from "react-redux";
 
-function App() {
+const App = () => {
+  const items = useSelector(state => state);
+  const dispatch = useDispatch();
+
+  function onRemoveCallback(id) {
+    dispatch({ type: "REMOVE", id: id });
+  }
+
+  function onAddCallback(event) {
+    event.preventDefault();
+
+    const data = new FormData(event.target);
+    dispatch({ type: "ADD", text: data.get('new') });
+  }
+
+  const results = Object.keys(items).map(id => (
+    <li key={id}>
+      <span>{items[id]}</span>
+      <button onClick={() => onRemoveCallback(id)}>Remove</button>
+    </li>
+  ));
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <form onSubmit={onAddCallback}>
+        <input type="text" name="new" required />
+        <button>Add</button>
+      </form>
+      <ul>
+        {results}
+      </ul>
     </div>
   );
 }
