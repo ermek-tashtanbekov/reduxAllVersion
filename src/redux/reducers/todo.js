@@ -16,7 +16,7 @@ const removeTodo = (state , action) =>{
     return newState
 }
  const todo = (state = initialState, action) => {
-  const newState = { ...state };
+
 
   switch (action.type) {
     case ADD_TODO:
