@@ -2,24 +2,35 @@ import { ADD_TODO, REMOVE_TODO } from "../action/action";
 
 const initialState = { };
 
+const addTodo = (state, action) =>{
+    const newState = {...state};
+    newState[
+        (Math.random() * 9999999999).toFixed(0)
+    ] = action.text
+    return newState
+}
 
-const todo = (state = initialState, action) => {
+const removeTodo = (state , action) =>{
+    const newState = {...state};
+    delete newState[action.id];
+    return newState
+}
+ const todo = (state = initialState, action) => {
   const newState = { ...state };
 
   switch (action.type) {
     case ADD_TODO:
-      const id = Math.random() * 9999999999;
-      newState[id.toFixed(0)] = action.text;
+        return addTodo(state, action)
       break;
     case REMOVE_TODO :
-      delete newState[action.id];
+     return removeTodo(state, action)
       break;
 
     default:
       break;
   }
 
-  return newState;
+  return state;
 }
 
 export default todo;
